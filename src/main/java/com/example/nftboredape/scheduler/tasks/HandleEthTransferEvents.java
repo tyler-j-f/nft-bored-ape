@@ -1,7 +1,6 @@
 /**
- * Handles Bored Ape Transfer Events.
- *  - Reads the blockchain for the transfer events.
- *  - If there are events found, add them to the DB if they don't exist there.
+ * Handles Bored Ape Transfer Events. - Reads the blockchain for the transfer events. - If there are
+ * events found, add them to the DB if they don't exist there.
  */
 package com.example.nftboredape.scheduler.tasks;
 
@@ -12,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class HandleEthTransferEvents {
 
-  @Autowired
-  ReadTransferEvents readTransferEvents;
-  @Autowired
-  AddTransferEventsToDB addTransferEventsToDB;
+  @Autowired ReadTransferEvents readTransferEvents;
+  @Autowired AddTransferEventsToDB addTransferEventsToDB;
 
   public void execute() throws EthEventException {
     List<TransferEventDTO> events = readTransferEvents.getEvents();
@@ -26,5 +23,4 @@ public class HandleEthTransferEvents {
     }
     addTransferEventsToDB.addToDB(events);
   }
-
 }

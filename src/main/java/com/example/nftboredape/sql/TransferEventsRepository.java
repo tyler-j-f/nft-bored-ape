@@ -24,7 +24,9 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   public static final String READ_BY_TOKEN_ID_SQL =
       "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ?";
   public static final String READ_BY_DUPLICATE_RELATED_DATA_SQL =
-      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ? AND transactionHash = ? AND fromAddress = ? AND toAddress = ?";
+      "SELECT * FROM "
+          + TransferEventsTable.TABLE_NAME
+          + " WHERE tokenId = ? AND transactionHash = ? AND fromAddress = ? AND toAddress = ?";
   public static final String READ_BY_NOT_MARKED_AS_READ_SQL =
       "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE isRead = false";
   public static final String UPDATE_BASE_SQL = "UPDATE " + TransferEventsTable.TABLE_NAME + " set ";
@@ -35,7 +37,8 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   public static final String DELETE_BY_ID_SQL =
       "DELETE FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ?";
 
-  public TransferEventsRepository(JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
+  public TransferEventsRepository(
+      JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
     super(jdbcTemplate, TransferEventsTable.TABLE_NAME);
     this.jdbcTemplate = jdbcTemplate;
     this.beanPropertyRowMapper = beanPropertyRowMapper;
@@ -54,8 +57,7 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
             entity.getTransactionHash(),
             entity.getFromAddress(),
             entity.getToAddress(),
-            false
-        );
+            false);
     if (results != 1) {
       return null;
     }
@@ -215,7 +217,8 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
       if (address == null) {
         return new ArrayList<>();
       }
-      stream = jdbcTemplate.queryForStream(READ_BY_ADDRESS_SQL, beanPropertyRowMapper, address, address);
+      stream =
+          jdbcTemplate.queryForStream(READ_BY_ADDRESS_SQL, beanPropertyRowMapper, address, address);
       List<TransferEventDTO> tokens = stream.collect(Collectors.toList());
       if (tokens.size() == 0) {
         return new ArrayList<>();
@@ -229,13 +232,9 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   }
 
   /**
-   * To indicate an event is a duplicate anbd already exists in the DB...
-   * We need to see if a table entry exists in the DB:
-   * 1: tokenId
-   * 2: tx hash
-   * 3: toAddress
-   * 4: fromAddress
-   * Are equivalent to the inputted DTO values
+   * To indicate an event is a duplicate anbd already exists in the DB... We need to see if a table
+   * entry exists in the DB: 1: tokenId 2: tx hash 3: toAddress 4: fromAddress Are equivalent to the
+   * inputted DTO values
    *
    * @param entity The event DTO data
    * @return The event DTO
@@ -246,14 +245,14 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
       if (entity == null) {
         return null;
       }
-      stream = jdbcTemplate.queryForStream(
-          READ_BY_DUPLICATE_RELATED_DATA_SQL,
-          beanPropertyRowMapper,
-          entity.getTokenId(),
-          entity.getTransactionHash(),
-          entity.getFromAddress(),
-          entity.getToAddress()
-      );
+      stream =
+          jdbcTemplate.queryForStream(
+              READ_BY_DUPLICATE_RELATED_DATA_SQL,
+              beanPropertyRowMapper,
+              entity.getTokenId(),
+              entity.getTransactionHash(),
+              entity.getFromAddress(),
+              entity.getToAddress());
       List<TransferEventDTO> tokens = stream.collect(Collectors.toList());
       if (tokens.size() == 0) {
         return null;
@@ -267,7 +266,8 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   }
 
   /**
-   * Get a list of all transfer event DTOs where the transfer event has not been marked "as read" in the SQL database
+   * Get a list of all transfer event DTOs where the transfer event has not been marked "as read" in
+   * the SQL database
    *
    * @return The list of event DTOs
    */
@@ -290,5 +290,4 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   private boolean doesEventIdExist(TransferEventDTO entity) {
     return readById(entity.getId()) != null;
   }
-
 }

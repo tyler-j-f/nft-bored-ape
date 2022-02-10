@@ -1,7 +1,4 @@
-/**
- * Adds transfer events to the DB.
- * Will not add an event to the DB if it already exists.
- */
+/** Adds transfer events to the DB. Will not add an event to the DB if it already exists. */
 package com.example.nftboredape.scheduler.tasks;
 
 import com.example.nftboredape.DTOs.TransferEventDTO;
@@ -11,25 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class AddTransferEventsToDB {
 
-  @Autowired
-  private TransferEventsRepository transferEventsRepository;
+  @Autowired private TransferEventsRepository transferEventsRepository;
 
   public void addToDB(List<TransferEventDTO> events) {
-    for (TransferEventDTO event: events) {
+    for (TransferEventDTO event : events) {
       if (isEventAlreadyInDB(event)) {
         System.out.println("event already exists in the db. event: " + event);
         return;
       }
-      transferEventsRepository.create(
-          event
-      );
+      transferEventsRepository.create(event);
     }
   }
 
   private boolean isEventAlreadyInDB(TransferEventDTO event) {
-    return transferEventsRepository.readByDuplicateRelatedData(
-        event
-    ) != null;
+    return transferEventsRepository.readByDuplicateRelatedData(event) != null;
   }
-
 }

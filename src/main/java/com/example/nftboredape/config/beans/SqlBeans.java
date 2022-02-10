@@ -1,6 +1,5 @@
 /**
- * Setups spring beans related to SQL for dependency injection.
- * https://www.baeldung.com/spring-bean
+ * Setups spring beans related to SQL for dependency injection. https://www.baeldung.com/spring-bean
  */
 package com.example.nftboredape.config.beans;
 
@@ -25,7 +24,7 @@ public class SqlBeans {
 
   @Bean
   TransferEventsRepository transferEventsRepository() {
-    return new TransferEventsRepository(jdbcTemplate, new BeanPropertyRowMapper(TransferEventDTO.class));
+    return new TransferEventsRepository(
+        jdbcTemplate, new BeanPropertyRowMapper(TransferEventDTO.class));
   }
-
 }

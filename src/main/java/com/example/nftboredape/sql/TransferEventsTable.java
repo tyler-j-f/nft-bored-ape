@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package com.example.nftboredape.sql;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +33,4 @@ public class TransferEventsTable implements TableInterface {
     this.jdbcTemplate.execute(DELETE_SQL);
     return true;
   }
-
 }

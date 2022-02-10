@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class DeleteTransferEventsTable {
 
-  @Autowired
-  private TransferEventsTable transferEventsTable;
+  @Autowired private TransferEventsTable transferEventsTable;
 
   public void execute() {
     try {

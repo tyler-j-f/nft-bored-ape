@@ -1,6 +1,4 @@
-/**
- * Creates the Bored Ape ETH transfer events table: "tblTransferEvents"
- */
+/** Creates the Bored Ape ETH transfer events table: "tblTransferEvents" */
 package com.example.nftboredape.scheduler.tasks;
 
 import com.example.nftboredape.sql.TransferEventsTable;
@@ -8,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class InitializeTransferEventsTable {
 
-  @Autowired
-  private TransferEventsTable transferEventsTable;
+  @Autowired private TransferEventsTable transferEventsTable;
 
   public void execute() {
     try {

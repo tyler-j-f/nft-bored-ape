@@ -1,7 +1,4 @@
-/**
- * Controller used to query to retrieve Bored Ape NFT transfer events.
- */
-
+/** Controller used to query to retrieve Bored Ape NFT transfer events. */
 package com.example.nftboredape.controllers;
 
 import com.example.nftboredape.DTOs.TransferEventDTO;
@@ -17,8 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = {"/api/events/get"})
 public class EventsRetrieverController {
 
-  @Autowired
-  private TransferEventsRepository transferEventsRepository;
+  @Autowired private TransferEventsRepository transferEventsRepository;
+
+
+  /** @return A list of all transfer events that have been added to the SQL DB */
+  @GetMapping(value = "unread")
+  public String getAllEvents() {
+    List<TransferEventDTO> events = transferEventsRepository.readByUnread();
+    if (events.isEmpty()) {
+      return "No events not marked as read found.";
+    }
+    return events.toString();
+  }
 
   /**
    * Get the transfer events by token id.
@@ -36,8 +43,8 @@ public class EventsRetrieverController {
   }
 
   /**
-   * Get the transfer events by address.
-   * Sent or received token address from transfer events will be read.
+   * Get the transfer events by address. Sent or received token address from transfer events will be
+   * read.
    *
    * @param address Address to get transfer events for
    * @return A JSON list of all events
@@ -51,9 +58,7 @@ public class EventsRetrieverController {
     return events.toString();
   }
 
-  /**
-   * @return A JSON list of all events that have not been marked as read
-   */
+  /** @return A list of all events that have not been marked as read in the SQL DB */
   @GetMapping(value = "unread")
   public String getUnreadEvents() {
     List<TransferEventDTO> events = transferEventsRepository.readByUnread();
@@ -62,5 +67,4 @@ public class EventsRetrieverController {
     }
     return events.toString();
   }
-
 }

@@ -1,8 +1,8 @@
 /**
- * Data transfer object (DTO) for a single bored ape NFT transfer event.
- * tokenId, transactionHash, fromAddress, and toAddress will be stored as hex string values (This is how they are read from the ETH blockchain with web3J).
+ * Data transfer object (DTO) for a single bored ape NFT transfer event. tokenId, transactionHash,
+ * fromAddress, and toAddress will be stored as hex string values (This is how they are read from
+ * the ETH blockchain with web3J).
  */
-
 package com.example.nftboredape.DTOs;
 
 import lombok.AllArgsConstructor;

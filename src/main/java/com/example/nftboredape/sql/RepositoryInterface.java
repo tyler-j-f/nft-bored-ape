@@ -1,6 +1,4 @@
-/**
- * A repository interface
- */
+/** A repository interface */
 package com.example.nftboredape.sql;
 
 import java.util.List;

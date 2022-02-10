@@ -15,19 +15,19 @@ public class TransferEventsRepositoryTest {
   private JdbcTemplate jdbcTemplate;
   private BeanPropertyRowMapper beanPropertyRowMapper;
   // Value set 1
-  private static long ID_1                 = 1l;
-  private static String TOKEN_ID_1         = "0x00";
+  private static long ID_1 = 1l;
+  private static String TOKEN_ID_1 = "0x00";
   private static String TRANSACTION_HASH_1 = "0x01";
-  private static String FROM_ADDRESS_1     = "0x02";
-  private static String TO_ADDRESS_1       = "0x03";
-  private static boolean IS_READ_1         = false;
+  private static String FROM_ADDRESS_1 = "0x02";
+  private static String TO_ADDRESS_1 = "0x03";
+  private static boolean IS_READ_1 = false;
   // Value set 2
-  private static long ID_2                 = 2l;
-  private static String TOKEN_ID_2         = "0x04";
+  private static long ID_2 = 2l;
+  private static String TOKEN_ID_2 = "0x04";
   private static String TRANSACTION_HASH_2 = "0x05";
-  private static String FROM_ADDRESS_2     = "0x06";
-  private static String TO_ADDRESS_2       = "0x07";
-  private static boolean IS_READ_2         = true;
+  private static String FROM_ADDRESS_2 = "0x06";
+  private static String TO_ADDRESS_2 = "0x07";
+  private static boolean IS_READ_2 = true;
 
   @BeforeEach
   public void setup() {
@@ -36,9 +36,7 @@ public class TransferEventsRepositoryTest {
   }
 
   @Test
-  /**
-   * Test creating a non-existing entry on tblTransferEvents
-   */
+  /** Test creating a non-existing entry on tblTransferEvents */
   void testCreateNonExistingEntry() {
     TransferEventDTO eventDTO =
         TransferEventDTO.builder()
@@ -60,14 +58,9 @@ public class TransferEventsRepositoryTest {
                 TRANSACTION_HASH_1,
                 FROM_ADDRESS_1,
                 TO_ADDRESS_1,
-                IS_READ_1
-                ))
+                IS_READ_1))
         .thenReturn(1);
-    Mockito.when(
-            jdbcTemplate.queryForObject(
-                Mockito.any(), (Class<Object>) Mockito.any()
-            )
-          )
+    Mockito.when(jdbcTemplate.queryForObject(Mockito.any(), (Class<Object>) Mockito.any()))
         .thenReturn(1L);
     TransferEventDTO eventDTOResult =
         new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).create(eventDTO);
@@ -80,15 +73,12 @@ public class TransferEventsRepositoryTest {
             TRANSACTION_HASH_1,
             FROM_ADDRESS_1,
             TO_ADDRESS_1,
-            IS_READ_1
-        );
+            IS_READ_1);
     assertThat(eventDTOResult).isEqualTo(eventDTO);
   }
 
   @Test
-  /**
-   * Test creating an existing entry on tblTransferEvents and make sure it does not work.
-   */
+  /** Test creating an existing entry on tblTransferEvents and make sure it does not work. */
   void testCreateExisting() {
     TransferEventDTO eventDTO =
         TransferEventDTO.builder()
@@ -110,14 +100,9 @@ public class TransferEventsRepositoryTest {
                 TRANSACTION_HASH_1,
                 FROM_ADDRESS_1,
                 TO_ADDRESS_1,
-                IS_READ_1
-            ))
+                IS_READ_1))
         .thenReturn(1);
-    Mockito.when(
-            jdbcTemplate.queryForObject(
-                Mockito.any(), (Class<Object>) Mockito.any()
-            )
-        )
+    Mockito.when(jdbcTemplate.queryForObject(Mockito.any(), (Class<Object>) Mockito.any()))
         .thenReturn(1L);
     TransferEventDTO eventDTOResult =
         new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).create(eventDTO);
@@ -130,14 +115,11 @@ public class TransferEventsRepositoryTest {
             TRANSACTION_HASH_1,
             FROM_ADDRESS_1,
             TO_ADDRESS_1,
-            IS_READ_1
-        );
+            IS_READ_1);
     assertThat(eventDTOResult).isEqualTo(null);
   }
 
-  /**
-   * Mock 2 event DTOs to return and assert that they are returned when calling read
-   */
+  /** Mock 2 event DTOs to return and assert that they are returned when calling read */
   @Test
   void testRead() {
     TransferEventDTO eventDTO =
@@ -158,31 +140,31 @@ public class TransferEventsRepositoryTest {
             .toAddress(TO_ADDRESS_2)
             .isRead(IS_READ_2)
             .build();
-    Mockito.when(jdbcTemplate.queryForStream(TransferEventsRepository.READ_SQL, beanPropertyRowMapper))
+    Mockito.when(
+            jdbcTemplate.queryForStream(TransferEventsRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.of(eventDTO, eventDTO2));
-    List<TransferEventDTO> tokens = new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    List<TransferEventDTO> tokens =
+        new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TransferEventsRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(tokens.get(0)).isEqualTo(eventDTO);
     assertThat(tokens.get(1)).isEqualTo(eventDTO2);
   }
 
-  /**
-   * Assert that reading from an empty table does not return any DTO entries.
-   */
+  /** Assert that reading from an empty table does not return any DTO entries. */
   @Test
   void testReadEmptyTable() {
-    Mockito.when(jdbcTemplate.queryForStream(TransferEventsRepository.READ_SQL, beanPropertyRowMapper))
+    Mockito.when(
+            jdbcTemplate.queryForStream(TransferEventsRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.empty());
-    List<TransferEventDTO> tokens = new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    List<TransferEventDTO> tokens =
+        new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TransferEventsRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(tokens.isEmpty()).isEqualTo(true);
   }
 
-  /**
-   * Assert that reading an existing entry by id (primary key) returns the correct event DTO.
-   */
+  /** Assert that reading an existing entry by id (primary key) returns the correct event DTO. */
   @Test
   void testReadExistingById() {
     TransferEventDTO eventDTO =
@@ -195,17 +177,17 @@ public class TransferEventsRepositoryTest {
             .isRead(IS_READ_1)
             .build();
     Mockito.when(
-            jdbcTemplate.queryForStream(TransferEventsRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID_1))
+            jdbcTemplate.queryForStream(
+                TransferEventsRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID_1))
         .thenReturn(Stream.of(eventDTO));
-    TransferEventDTO tokenDTOResult = new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID_1);
+    TransferEventDTO tokenDTOResult =
+        new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID_1);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TransferEventsRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID_1);
     assertThat(tokenDTOResult).isEqualTo(eventDTO);
   }
 
-  /**
-   * Test updating an existing table entry and assert that the updated values are returned.
-   */
+  /** Test updating an existing table entry and assert that the updated values are returned. */
   @Test
   void testUpdateExistingEntry() {
     TransferEventDTO eventDTO =
@@ -239,8 +221,7 @@ public class TransferEventsRepositoryTest {
                 FROM_ADDRESS_2,
                 TO_ADDRESS_2,
                 IS_READ_2,
-                ID_1
-            ))
+                ID_1))
         .thenReturn(1);
     TransferEventDTO tokenDTOResults =
         new TransferEventsRepository(jdbcTemplate, beanPropertyRowMapper).update(eventDTO2);
@@ -254,9 +235,7 @@ public class TransferEventsRepositoryTest {
             FROM_ADDRESS_2,
             TO_ADDRESS_2,
             IS_READ_2,
-            ID_1
-        );
+            ID_1);
     assertThat(tokenDTOResults).isEqualTo(eventDTO2);
   }
-
 }

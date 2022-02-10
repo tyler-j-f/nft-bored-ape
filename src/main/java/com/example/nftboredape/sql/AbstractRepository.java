@@ -1,6 +1,4 @@
-/**
- * Abstract repository. Can be used to create a repository of any DTO class.
- */
+/** Abstract repository. Can be used to create a repository of any DTO class. */
 package com.example.nftboredape.sql;
 
 import org.springframework.jdbc.core.JdbcTemplate;
