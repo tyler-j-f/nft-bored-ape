@@ -7,7 +7,7 @@
 
 package com.example.nftboredape.scheduler.tasks;
 
-import com.example.nftboredape.DTOs.EventDTO;
+import com.example.nftboredape.DTOs.TransferEventDTO;
 import com.example.nftboredape.config.external.EthConfig;
 import com.example.nftboredape.exceptions.EthEventException;
 import java.math.BigInteger;
@@ -41,7 +41,7 @@ public class GetEthEventsTask {
    * @return A list of transfer event DTOs
    * @throws EthEventException
    */
-  public List<EventDTO> getEvents() throws EthEventException {
+  public List<TransferEventDTO> getEvents() throws EthEventException {
     try {
       BigInteger currentBlockNumber = web3j.ethBlockNumber().sendAsync().get().getBlockNumber();
       DefaultBlockParameter fromBlock = DefaultBlockParameter.valueOf(currentBlockNumber.subtract(
@@ -69,14 +69,14 @@ public class GetEthEventsTask {
    * @param logs The Bored Ape NFT transfer logs
    * @return A list of event DTOs
    */
-  private List<EventDTO> createEventDTOs(List<EthLog.LogResult> logs) {
-    List<EventDTO> events = new ArrayList<>();
+  private List<TransferEventDTO> createEventDTOs(List<EthLog.LogResult> logs) {
+    List<TransferEventDTO> events = new ArrayList<>();
     for (EthLog.LogResult log : logs) {
       List<String> topics = ((Log) log).getTopics();
       if (topics.get(0).equals(ethConfig.getEventHashSignature())) {
-        EventDTO event = EventDTO
+        TransferEventDTO event = TransferEventDTO
             .builder()
-            .transactionHAsh(((Log) log).getTransactionHash())
+            .transactionHash(((Log) log).getTransactionHash())
             .fromAddress(topics.get(1))
             .toAddress(topics.get(2))
             .tokenId(topics.get(3))

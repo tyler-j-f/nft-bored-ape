@@ -4,7 +4,7 @@
 
 package com.example.nftboredape.controllers;
 
-import com.example.nftboredape.DTOs.EventDTO;
+import com.example.nftboredape.DTOs.TransferEventDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +24,12 @@ public class EventsController {
    */
   @GetMapping(value = "tokenId/{tokenId}")
   public String getEventsByTokenId(@PathVariable Long tokenId) {
-    List<EventDTO> events = new ArrayList<>();
+    List<TransferEventDTO> events = new ArrayList<>();
     events.add(
-        EventDTO.builder().tokenId("0x01").transactionHAsh("0x111").fromAddress("0x01").toAddress("0x02").build()
+        TransferEventDTO.builder().tokenId("0x01").transactionHash("0x111").fromAddress("0x01").toAddress("0x02").build()
     );
     events.add(
-        EventDTO.builder().tokenId("0x02").transactionHAsh("0x222").fromAddress("0x02").toAddress("0x03").build()
+        TransferEventDTO.builder().tokenId("0x02").transactionHash("0x222").fromAddress("0x02").toAddress("0x03").build()
     );
     return events.toString();
   }
@@ -42,12 +42,12 @@ public class EventsController {
    */
   @GetMapping(value = "address/{address}")
   public String getEventsByAddress(@PathVariable String address) {
-    List<EventDTO> events = new ArrayList<>();
+    List<TransferEventDTO> events = new ArrayList<>();
     events.add(
-        EventDTO.builder().tokenId("0x01").transactionHAsh("0x111").fromAddress("0x01").toAddress("0x02").build()
+        TransferEventDTO.builder().tokenId("0x01").transactionHash("0x111").fromAddress("0x01").toAddress("0x02").build()
     );
     events.add(
-        EventDTO.builder().tokenId("0x02").transactionHAsh("0x222").fromAddress("0x02").toAddress("0x03").build()
+        TransferEventDTO.builder().tokenId("0x02").transactionHash("0x222").fromAddress("0x02").toAddress("0x03").build()
     );
     return events.toString();  }
 

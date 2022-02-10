@@ -18,7 +18,7 @@ public class Scheduler {
    * fixedDelayString determines how often this is ran.
    * fixedDelayString can be updated from the config file: src/main/resources/application.yaml
    */
-  @Scheduled(fixedDelayString = "${spring.application.events-config.schedulerFixedDelayStringMs}")
+  @Scheduled(fixedDelayString = "${spring.application.scheduler-config.schedulerFixedDelayStringMs}")
   public void scanForTransferEvents() throws EthEventException {
     System.out.println(
         getEthEventsTask.getEvents()
