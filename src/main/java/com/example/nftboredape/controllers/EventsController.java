@@ -5,8 +5,9 @@
 package com.example.nftboredape.controllers;
 
 import com.example.nftboredape.DTOs.TransferEventDTO;
-import java.util.ArrayList;
+import com.example.nftboredape.sql.TransferEventsRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = {"/api/events"})
 public class EventsController {
 
+  @Autowired
+  private TransferEventsRepository transferEventsRepository;
+
   /**
    * Get the transfer events by token id.
    *
@@ -23,32 +27,28 @@ public class EventsController {
    * @return A JSON list of all events
    */
   @GetMapping(value = "tokenId/{tokenId}")
-  public String getEventsByTokenId(@PathVariable Long tokenId) {
-    List<TransferEventDTO> events = new ArrayList<>();
-    events.add(
-        TransferEventDTO.builder().tokenId("0x01").transactionHash("0x111").fromAddress("0x01").toAddress("0x02").build()
-    );
-    events.add(
-        TransferEventDTO.builder().tokenId("0x02").transactionHash("0x222").fromAddress("0x02").toAddress("0x03").build()
-    );
+  public String getEventsByTokenId(@PathVariable String tokenId) {
+    List<TransferEventDTO> events = transferEventsRepository.readByTokenId(tokenId);
+    if (events.isEmpty()) {
+      return "No events found for tokenId: " + tokenId;
+    }
     return events.toString();
   }
 
   /**
    * Get the transfer events by address.
+   * Sent or received token address from transfer events will be read.
    *
    * @param address Address to get transfer events for
    * @return A JSON list of all events
    */
   @GetMapping(value = "address/{address}")
   public String getEventsByAddress(@PathVariable String address) {
-    List<TransferEventDTO> events = new ArrayList<>();
-    events.add(
-        TransferEventDTO.builder().tokenId("0x01").transactionHash("0x111").fromAddress("0x01").toAddress("0x02").build()
-    );
-    events.add(
-        TransferEventDTO.builder().tokenId("0x02").transactionHash("0x222").fromAddress("0x02").toAddress("0x03").build()
-    );
-    return events.toString();  }
+    List<TransferEventDTO> events = transferEventsRepository.readByAddress(address);
+    if (events.isEmpty()) {
+      return "No events found for address: " + address;
+    }
+    return events.toString();
+  }
 
 }

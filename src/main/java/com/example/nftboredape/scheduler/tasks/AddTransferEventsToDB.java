@@ -27,7 +27,9 @@ public class AddTransferEventsToDB {
   }
 
   private boolean isEventAlreadyInDB(TransferEventDTO event) {
-    return false;
+    return transferEventsRepository.readByDuplicateRelatedData(
+        event
+    ) != null;
   }
 
 }

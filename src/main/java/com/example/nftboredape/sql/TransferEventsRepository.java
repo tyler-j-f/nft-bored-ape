@@ -19,6 +19,12 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
       "INSERT INTO " + TransferEventsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE id = ?";
+  public static final String READ_BY_ADDRESS_SQL =
+      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE fromAddress = ? OR toAddress = ?";
+  public static final String READ_BY_TOKEN_ID_SQL =
+      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ?";
+  public static final String READ_BY_DUPLICATE_RELATED_DATA_SQL =
+      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ? AND transactionHash = ? AND fromAddress = ? AND toAddress = ?";
   public static final String UPDATE_BASE_SQL = "UPDATE " + TransferEventsTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
@@ -164,6 +170,94 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
     }
     jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTokenId());
     return !doesEventIdExist(entity);
+  }
+
+  /**
+   * Get a list of transfer event DTOs where the inputted tokenId was transferred
+   *
+   * @param tokenId The tokenId to get events for
+   * @return
+   */
+  public List<TransferEventDTO> readByTokenId(String tokenId) {
+    Stream<TransferEventDTO> stream = null;
+    try {
+      if (tokenId == null) {
+        return new ArrayList<>();
+      }
+      stream = jdbcTemplate.queryForStream(READ_BY_TOKEN_ID_SQL, beanPropertyRowMapper, tokenId);
+      List<TransferEventDTO> tokens = stream.collect(Collectors.toList());
+      if (tokens.size() == 0) {
+        return new ArrayList<>();
+      }
+      return tokens;
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+  }
+
+  /**
+   * Get a list of transfer event DTOs where the inputted address was a sender or receiver
+   *
+   * @param address The address to get events for
+   * @return
+   */
+  public List<TransferEventDTO> readByAddress(String address) {
+    Stream<TransferEventDTO> stream = null;
+    try {
+      if (address == null) {
+        return new ArrayList<>();
+      }
+      stream = jdbcTemplate.queryForStream(READ_BY_ADDRESS_SQL, beanPropertyRowMapper, address, address);
+      List<TransferEventDTO> tokens = stream.collect(Collectors.toList());
+      if (tokens.size() == 0) {
+        return new ArrayList<>();
+      }
+      return tokens;
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+  }
+
+  /**
+   * To indicate an event is a duplicate anbd already exists in the DB...
+   * We need to see if a table entry exists in the DB:
+   * 1: tokenId
+   * 2: tx hash
+   * 3: toAddress
+   * 4: fromAddress
+   * Are equivalent to the inputted DTO values
+   *
+   * @param entity The event DTO data
+   * @return
+   */
+  public TransferEventDTO readByDuplicateRelatedData(TransferEventDTO entity) {
+    Stream<TransferEventDTO> stream = null;
+    try {
+      if (entity == null) {
+        return null;
+      }
+      stream = jdbcTemplate.queryForStream(
+          READ_BY_DUPLICATE_RELATED_DATA_SQL,
+          beanPropertyRowMapper,
+          entity.getTokenId(),
+          entity.getTransactionHash(),
+          entity.getFromAddress(),
+          entity.getToAddress()
+      );
+      List<TransferEventDTO> tokens = stream.collect(Collectors.toList());
+      if (tokens.size() == 0) {
+        return null;
+      }
+      return tokens.get(0);
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
   }
 
   private boolean doesEventIdExist(TransferEventDTO entity) {
