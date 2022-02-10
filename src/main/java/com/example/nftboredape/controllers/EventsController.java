@@ -26,10 +26,10 @@ public class EventsController {
   public String getEventsByTokenId(@PathVariable Long tokenId) {
     List<EventDTO> events = new ArrayList<>();
     events.add(
-        EventDTO.builder().tokenId(1L).transactionId("0x111").fromAddress("0x01").toAddress("0x02").build()
+        EventDTO.builder().tokenId("0x01").transactionHAsh("0x111").fromAddress("0x01").toAddress("0x02").build()
     );
     events.add(
-        EventDTO.builder().tokenId(1L).transactionId("0x222").fromAddress("0x02").toAddress("0x03").build()
+        EventDTO.builder().tokenId("0x02").transactionHAsh("0x222").fromAddress("0x02").toAddress("0x03").build()
     );
     return events.toString();
   }
@@ -44,10 +44,10 @@ public class EventsController {
   public String getEventsByAddress(@PathVariable String address) {
     List<EventDTO> events = new ArrayList<>();
     events.add(
-        EventDTO.builder().tokenId(1L).transactionId("0x111").fromAddress("0x01").toAddress("0x02").build()
+        EventDTO.builder().tokenId("0x01").transactionHAsh("0x111").fromAddress("0x01").toAddress("0x02").build()
     );
     events.add(
-        EventDTO.builder().tokenId(1L).transactionId("0x222").fromAddress("0x02").toAddress("0x03").build()
+        EventDTO.builder().tokenId("0x02").transactionHAsh("0x222").fromAddress("0x02").toAddress("0x03").build()
     );
     return events.toString();  }
 

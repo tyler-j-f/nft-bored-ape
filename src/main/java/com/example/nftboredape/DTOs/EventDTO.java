@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 @Builder
 public class EventDTO {
-  private Long tokenId;
-  private String transactionId;
+  private String tokenId;
+  private String transactionHAsh;
   private String fromAddress;
   private String toAddress;
 }
