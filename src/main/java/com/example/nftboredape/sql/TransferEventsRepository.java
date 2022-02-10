@@ -25,6 +25,8 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
       "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ?";
   public static final String READ_BY_DUPLICATE_RELATED_DATA_SQL =
       "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ? AND transactionHash = ? AND fromAddress = ? AND toAddress = ?";
+  public static final String READ_BY_NOT_MARKED_AS_READ_SQL =
+      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE isRead = false";
   public static final String UPDATE_BASE_SQL = "UPDATE " + TransferEventsTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
@@ -163,6 +165,10 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
     return entity;
   }
 
+  /**
+   * @param entity The event DTO to delete
+   * @return Was the DTO delete successfully?
+   */
   @Override
   public boolean delete(TransferEventDTO entity) {
     if (!doesEventIdExist(entity)) {
@@ -201,7 +207,7 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
    * Get a list of transfer event DTOs where the inputted address was a sender or receiver
    *
    * @param address The address to get events for
-   * @return
+   * @return The list of event DTOs
    */
   public List<TransferEventDTO> readByAddress(String address) {
     Stream<TransferEventDTO> stream = null;
@@ -232,7 +238,7 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
    * Are equivalent to the inputted DTO values
    *
    * @param entity The event DTO data
-   * @return
+   * @return The event DTO
    */
   public TransferEventDTO readByDuplicateRelatedData(TransferEventDTO entity) {
     Stream<TransferEventDTO> stream = null;
@@ -253,6 +259,27 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
         return null;
       }
       return tokens.get(0);
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+  }
+
+  /**
+   * Get a list of all transfer event DTOs where the transfer event has not been marked "as read" in the SQL database
+   *
+   * @return The list of event DTOs
+   */
+  public List<TransferEventDTO> readByUnread() {
+    Stream<TransferEventDTO> stream = null;
+    try {
+      stream = jdbcTemplate.queryForStream(READ_BY_NOT_MARKED_AS_READ_SQL, beanPropertyRowMapper);
+      List<TransferEventDTO> tokens = stream.collect(Collectors.toList());
+      if (tokens.size() == 0) {
+        return new ArrayList<>();
+      }
+      return tokens;
     } finally {
       if (stream != null) {
         stream.close();

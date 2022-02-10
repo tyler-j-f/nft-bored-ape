@@ -51,4 +51,16 @@ public class EventsRetrieverController {
     return events.toString();
   }
 
+  /**
+   * @return A JSON list of all events that have not been marked as read
+   */
+  @GetMapping(value = "unread")
+  public String getUnreadEvents() {
+    List<TransferEventDTO> events = transferEventsRepository.readByUnread();
+    if (events.isEmpty()) {
+      return "No events not marked as read found.";
+    }
+    return events.toString();
+  }
+
 }
