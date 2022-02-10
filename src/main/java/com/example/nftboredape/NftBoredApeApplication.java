@@ -13,7 +13,7 @@ public class NftBoredApeApplication {
 	 *
 	 * View the "Scheduler" class to see how Bored Ape transfer events are read from the blockchain and added to the DB.
 	 *
-	 * View the "EventsController" class to see how API requests to query for events are handled.
+	 * View the "EventsRetrieverController" class to see how API requests to query for events are handled.
 	 *
 	 * View the "isReadController" class to see how API requests to mark an event as read are handled.
 	 *

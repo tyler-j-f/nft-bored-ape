@@ -1,5 +1,5 @@
 /**
- * Controller used to query for Bored Ape NFT transfer events.
+ * Controller used to query to retrieve Bored Ape NFT transfer events.
  */
 
 package com.example.nftboredape.controllers;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = {"/api/events"})
-public class EventsController {
+@RequestMapping(value = {"/api/events/get"})
+public class EventsRetrieverController {
 
   @Autowired
   private TransferEventsRepository transferEventsRepository;
