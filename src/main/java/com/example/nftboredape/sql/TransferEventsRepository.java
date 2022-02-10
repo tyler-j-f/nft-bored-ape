@@ -16,7 +16,7 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   public static final String READ_SQL = "SELECT * FROM " + TransferEventsTable.TABLE_NAME;
   // CRUD SQL
   public static final String CREATE_SQL =
-      "INSERT INTO " + TransferEventsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO " + TransferEventsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ?";
   public static final String UPDATE_BASE_SQL = "UPDATE " + TransferEventsTable.TABLE_NAME + " set ";
@@ -44,7 +44,8 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
             entity.getTokenId(),
             entity.getTransactionHash(),
             entity.getToAddress(),
-            entity.getFromAddress()
+            entity.getFromAddress(),
+            false
         );
     if (results != 1) {
       return null;
@@ -135,14 +136,14 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
       isCommaNeededToAppend = true;
     }
     // isRead
-    String isRead = entity.getToAddress();
+    Boolean isRead = entity.getIsRead();
     boolean shouldUpdateIsRead = isRead != null;
     if (shouldUpdateIsRead) {
       if (isCommaNeededToAppend) {
         updateSQL = updateSQL + ", ";
       }
       updateSQL = updateSQL + "isRead = ?";
-      updateValuesList.add(isRead);
+      updateValuesList.add((boolean) isRead);
     }
     Long id = entity.getId();
     updateValuesList.add(id);

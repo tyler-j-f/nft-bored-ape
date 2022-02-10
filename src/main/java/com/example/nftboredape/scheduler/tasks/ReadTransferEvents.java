@@ -1,5 +1,10 @@
 /**
- * Gets the Bored Ape NFT transfer events.
+ * Reads the Bored Ape NFT transfer events from the ETH mainnet.
+ * Update the config (application.yaml) to change values for:
+ *  - Contract address (Won't change for the ETH mainnet, but can be updated to work on another deployment of Bored Ape smart contracts)
+ *  - Alchemy API Key
+ *  - Contract address (Won't change for the ETH mainnet, but can be updated to work on another deployment of Bored Ape smart contracts)
+ *  - ETH event hash (Won't change for the ETH mainnet, but can be updated to work on another deployment of Bored Ape smart contracts)
  *
  * Here is an example ETH mainnet transaction that had a "Transfer" event emitted (tokenId => 9440)
  * https://etherscan.io/tx/0x285491453a141f95121020d42fd81a6bbd7bc3808d6b93cf8faa9a0c8f500f5c
@@ -21,7 +26,7 @@ import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.EthLog;
 import org.web3j.protocol.core.methods.response.Log;
 
-public class GetEthEventsTask {
+public class ReadTransferEvents {
 
   @Autowired
   private EthConfig ethConfig;

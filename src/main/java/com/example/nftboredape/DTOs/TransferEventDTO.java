@@ -5,16 +5,20 @@
 
 package com.example.nftboredape.DTOs;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransferEventDTO {
   private Long id;
   private String tokenId;
   private String transactionHash;
   private String fromAddress;
   private String toAddress;
-  private boolean isRead = false;
+  private Boolean isRead;
 }

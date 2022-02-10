@@ -1,3 +1,9 @@
+/**
+ * External config. The values will be injected at runtime.
+ *
+ * Can update the values by modifying the config at:
+ * application.yaml (spring.application.eth)
+ */
 package com.example.nftboredape.config.external;
 
 import lombok.Data;
