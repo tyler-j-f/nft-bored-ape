@@ -1,0 +1,10 @@
+spring:
+  application:
+    #alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
+    #alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
+#  datasource:
+#    url: @active-datasource-url@
+#    username:  "root"
+#    password:  @active-datasource-password@
+    events-config:
+      schedulerFixedDelayStringMs: 10000
