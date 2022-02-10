@@ -18,7 +18,7 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
   public static final String CREATE_SQL =
       "INSERT INTO " + TransferEventsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
-      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE tokenId = ?";
+      "SELECT * FROM " + TransferEventsTable.TABLE_NAME + " WHERE id = ?";
   public static final String UPDATE_BASE_SQL = "UPDATE " + TransferEventsTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
@@ -38,19 +38,21 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
     if (doesEventIdExist(entity)) {
       return null;
     }
+    Long id = getCount() + 1;
     int results =
         jdbcTemplate.update(
             CREATE_SQL,
             entity.getTokenId(),
             entity.getTransactionHash(),
-            entity.getToAddress(),
             entity.getFromAddress(),
+            entity.getToAddress(),
             false
         );
     if (results != 1) {
       return null;
     }
-    return readById(entity.getId());
+    entity.setId(id);
+    return entity;
   }
 
   @Override
@@ -152,7 +154,7 @@ public class TransferEventsRepository extends AbstractRepository<TransferEventDT
     if (results < 1) {
       return null;
     }
-    return readById(entity.getId());
+    return entity;
   }
 
   @Override
