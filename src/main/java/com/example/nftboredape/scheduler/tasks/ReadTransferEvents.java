@@ -27,6 +27,10 @@ import org.web3j.protocol.core.methods.response.Log;
 
 public class ReadTransferEvents {
 
+  public static final String ZERO_X = "0x";
+  public static final int BASE_16 = 16;
+  public static final int ADDRESS_LENGTH = 40;
+
   @Autowired private EthConfig ethConfig;
   @Autowired private Web3j web3j;
 
@@ -78,13 +82,33 @@ public class ReadTransferEvents {
         TransferEventDTO event =
             TransferEventDTO.builder()
                 .transactionHash(((Log) log).getTransactionHash())
-                .fromAddress(topics.get(1))
-                .toAddress(topics.get(2))
-                .tokenId(topics.get(3))
+                .fromAddress(formatAddress(topics.get(1)))
+                .toAddress(formatAddress(topics.get(2)))
+                .tokenId(formatTokenId(topics.get(3)))
                 .build();
         events.add(event);
       }
     }
     return events;
+  }
+
+  /**
+   * The eth event data will be read as 32 bytes. But ETH addresses are actually 20 bytes. You can
+   * get the address by taking the last 20 bytes/40 characters
+   *
+   * @return The correct eth address with 0x preceding it
+   */
+  private String formatAddress(String input) {
+    return "0x" + input.substring(input.length() - ADDRESS_LENGTH);
+  }
+
+  /**
+   * The tokenId will be a hex address. Our API will take tokenID queries in decimal format... so
+   * convert that now
+   *
+   * @return The correct decimal token id
+   */
+  private String formatTokenId(String input) {
+    return String.valueOf(Long.parseLong(input.split(ZERO_X)[1], BASE_16));
   }
 }
