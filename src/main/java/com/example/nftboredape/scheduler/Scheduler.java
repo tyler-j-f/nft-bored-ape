@@ -8,7 +8,6 @@ import com.example.nftboredape.exceptions.EthEventException;
 import com.example.nftboredape.scheduler.tasks.DeleteTransferEventsTable;
 import com.example.nftboredape.scheduler.tasks.HandleEthTransferEvents;
 import com.example.nftboredape.scheduler.tasks.InitializeTransferEventsTable;
-import com.example.nftboredape.sql.TransferEventsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,7 +21,6 @@ public class Scheduler {
   @Autowired InitializeTransferEventsTable initializeTransferEventsTable;
   @Autowired DeleteTransferEventsTable deleteTransferEventsTable;
   private boolean hasSqlTableBeenInitialized = false;
-  @Autowired private TransferEventsRepository transferEventsRepository;
   /**
    * Scans the ETH blockchain for Bored Ape NFT transfer events. Adds the events to the DB to be
    * retrieved later.
@@ -44,7 +42,6 @@ public class Scheduler {
       hasSqlTableBeenInitialized = true;
     }
     handleEthTransferEvents.execute();
-    System.out.println("DEBUG DB EVENTS:\n " + transferEventsRepository.read());
   }
 
   private boolean shouldResetSqlTables() {

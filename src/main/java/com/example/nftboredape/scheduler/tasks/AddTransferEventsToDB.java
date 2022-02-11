@@ -17,6 +17,7 @@ public class AddTransferEventsToDB {
         return;
       }
       transferEventsRepository.create(event);
+      System.out.println("Transfer event added to the DB.\nEvent:\n" + event + "\n");
     }
   }
 

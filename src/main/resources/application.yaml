@@ -11,4 +11,4 @@ spring:
       eventHashSignature: "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
       numberOfBlocksAgo: 270 # Roughly an hours worth of blocks to look back
     scheduler-config:
-      schedulerFixedDelayStringMs: 5000
+      schedulerFixedDelayStringMs: 60000

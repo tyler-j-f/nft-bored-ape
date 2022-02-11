@@ -16,7 +16,6 @@ public class HandleEthTransferEvents {
 
   public void execute() throws EthEventException {
     List<TransferEventDTO> events = readTransferEvents.getEvents();
-    System.out.println("DEBUG BLOCKCHAIN EVENTS:\n " + events);
     if (events.isEmpty()) {
       System.out.println("No transfer events found");
       return;
