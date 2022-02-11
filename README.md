@@ -9,7 +9,7 @@ NOTES TO APPLICATION REVIEWERS:
 * I chose to use MySql rather than postgresql
   * I have not installed and configured postgresql on a local machine ever before.
     * Nor have I used postgresql with Java...
-    * I was again concerned with how long installing and configuring a new technology like postgres would take.
+    * I was again concerned with how long installing and configuring a new technology like postgresql would take.
 
 End Pre-Read Notes
 _____
@@ -39,6 +39,7 @@ The API for interacting with this server is listed below.
 * Download/Install & Configure MySQL/MySQL Workbench
   * [MySQL](https://maven.apache.org/download.cgi)
   * [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
+  * [Guide](https://ladvien.com/data-analytics-mysql-localhost-setup/) to setup a local MySQL instance
 * [Alchemy](https://www.alchemy.com/) API key setup for ETH mainnet
 
 ## Configuring The Application
