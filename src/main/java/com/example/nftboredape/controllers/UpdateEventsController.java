@@ -1,4 +1,7 @@
-/** Controller used to query for Bored Ape NFT transfer events. */
+/**
+ * Controller used to query for Bored Ape NFT transfer events.
+ * View the README to see how to interact with the endpoints.
+ * */
 package com.example.nftboredape.controllers;
 
 import com.example.nftboredape.DTOs.TransferEventDTO;

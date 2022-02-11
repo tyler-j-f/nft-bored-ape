@@ -4,6 +4,7 @@
  */
 package com.example.nftboredape.config.beans;
 
+import com.example.nftboredape.DTOs.TransferEventsDTOListPrinter;
 import com.example.nftboredape.config.external.EthConfig;
 import com.example.nftboredape.scheduler.tasks.AddTransferEventsToDB;
 import com.example.nftboredape.scheduler.tasks.DeleteTransferEventsTable;
@@ -49,5 +50,10 @@ public class EthEventsBeans {
   @Bean
   public DeleteTransferEventsTable getDeleteTransferEventsTable() {
     return new DeleteTransferEventsTable();
+  }
+
+  @Bean
+  public TransferEventsDTOListPrinter getTransferEventsDTOListPrinter() {
+    return new TransferEventsDTOListPrinter();
   }
 }

@@ -17,7 +17,7 @@ public class NftBoredApeApplication {
    * <p>View the "EventsRetrieverController" class to see how API requests to query for events are
    * handled.
    *
-   * <p>View the "isReadController" class to see how API requests to mark an event as read are
+   * <p>View the "UpdateEventsController" class to see how API requests to mark an event as read are
    * handled.
    *
    * @param args

@@ -2,7 +2,7 @@ spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/db1"
     username: "root"
-    password: "adultMicros0ft"
+    password: "testPassword"
   application:
     eth:
       alchemyAPIKey: "L_LOumhDPdpGwnXsfG7X-e0_GOs2WyU1"

@@ -1,7 +1,11 @@
-/** Controller used to query to retrieve Bored Ape NFT transfer events. */
+/**
+ * Controller used to query to retrieve Bored Ape NFT transfer events.
+ * View the README to see how to interact with the endpoints.
+ * */
 package com.example.nftboredape.controllers;
 
 import com.example.nftboredape.DTOs.TransferEventDTO;
+import com.example.nftboredape.DTOs.TransferEventsDTOListPrinter;
 import com.example.nftboredape.sql.TransferEventsRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventsRetrieverController {
 
   @Autowired private TransferEventsRepository transferEventsRepository;
-
+  @Autowired private TransferEventsDTOListPrinter eventsListPrinter;
 
   /** @return A list of all transfer events that have been added to the SQL DB */
-  @GetMapping(value = "unread")
+  @GetMapping(value = "all")
   public String getAllEvents() {
-    List<TransferEventDTO> events = transferEventsRepository.readByUnread();
+    List<TransferEventDTO> events = transferEventsRepository.read();
     if (events.isEmpty()) {
       return "No events not marked as read found.";
     }
-    return events.toString();
+    return eventsListPrinter.print(events);
   }
 
   /**
@@ -39,7 +43,7 @@ public class EventsRetrieverController {
     if (events.isEmpty()) {
       return "No events found for tokenId: " + tokenId;
     }
-    return events.toString();
+    return eventsListPrinter.print(events);
   }
 
   /**
@@ -55,7 +59,7 @@ public class EventsRetrieverController {
     if (events.isEmpty()) {
       return "No events found for address: " + address;
     }
-    return events.toString();
+    return eventsListPrinter.print(events);
   }
 
   /** @return A list of all events that have not been marked as read in the SQL DB */
@@ -65,6 +69,6 @@ public class EventsRetrieverController {
     if (events.isEmpty()) {
       return "No events not marked as read found.";
     }
-    return events.toString();
+    return eventsListPrinter.print(events);
   }
 }
