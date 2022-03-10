@@ -1,20 +1,3 @@
-NOTES TO APPLICATION REVIEWERS:
-* There were a couple of technologies that I opted not to use because of the time constraint.
-* I created a REST API rather than a graphQL server
-    * It has been a couple of years since I have used GraphQL
-    * With the small amount of time allotted... I chose not to implement GraphQL
-    * The configuration alone for GraphQL could have taken quite some time.
-      * If I had a previous Java/Springboot & GraphQL implementation, this configuration time could maybe be cut down.
-    * Even once GraphQL was configured... I would have to re-teach myself GraphQL which would take some time
-* I chose to use MySql rather than postgresql
-  * I have not installed and configured postgresql on a local machine ever before.
-    * Nor have I used postgresql with Java...
-    * I was again concerned with how long installing and configuring a new technology like postgresql would take.
-
-End Pre-Read Notes
-_____
-_____
-
 # Bored Ape Transfer Events Service
 * This app is used to run a server which listens to all transfer events for the Bored Ape NFT platform
 * The events will be added to a SQL DB to be retrieved
